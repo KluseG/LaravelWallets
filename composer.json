@@ -5,8 +5,7 @@
     "authors": [
         {
             "name": "Adrian Kluska",
-            "email": "a.kluska98@gmail.com",
-            "homepage": "author homepage"
+            "email": "a.kluska98@gmail.com"
         }
     ],
     "homepage": "https://github.com/kluseg/laravelwallets",
