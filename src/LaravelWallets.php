@@ -2,49 +2,46 @@
 
 namespace KluseG\LaravelWallets;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-
-use KluseG\LaravelWallets\Exceptions\InvalidContextException;
-use KluseG\LaravelWallets\Exceptions\WalletDuplicateException;
-use KluseG\LaravelWallets\Exceptions\WalletNotFoundException;
-use KluseG\LaravelWallets\Exceptions\WalletEmptyException;
-
 use KluseG\LaravelWallets\Models\Wallet;
 use KluseG\LaravelWallets\Models\WalletTransaction;
-
-use Carbon\Carbon;
+use KluseG\LaravelWallets\Exceptions\WalletEmptyException;
+use KluseG\LaravelWallets\Exceptions\InvalidContextException;
+use KluseG\LaravelWallets\Exceptions\WalletNotFoundException;
+use KluseG\LaravelWallets\Exceptions\WalletDuplicateException;
 
 class LaravelWallets
 {
     /**
-     * Eloquent Model instance
+     * Eloquent Model instance.
      *
      * @var \Illuminate\Database\Eloquent\Model
      */
     protected $ctx;
 
     /**
-     * Current Wallet instance
+     * Current Wallet instance.
      *
      * @var \KluseG\LaravelWallets\Models\Wallet
      */
     protected $wallet;
 
     /**
-     * Relation instance
+     * Relation instance.
      *
      * @var \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     protected $wallets;
 
     /**
-     * Creates new Wallet with given currency and optional initial income
+     * Creates new Wallet with given currency and optional initial income.
      *
      * @param   string      $crcy   Currency name in XYZ format
      * @param   float|null  $total  Initial wallet total
      *
      * @return  \KluseG\LaravelWallets\Models\Wallet
-     * 
+     *
      * @throws \KluseG\LaravelWallets\Exceptions\WalletDuplicateException
      */
     public function create(string $crcy, float $total = null) : Wallet
@@ -59,7 +56,7 @@ class LaravelWallets
             'crcy' => $crcy,
         ]);
 
-        if (!is_null($total)) {
+        if (! is_null($total)) {
             $this->createTransaction($total)->withNote(trans('wallets::wallets.initial_income'));
         }
 
@@ -67,12 +64,12 @@ class LaravelWallets
     }
 
     /**
-     * Finds wallet by given currency or returns all wallets if null
-     * 
+     * Finds wallet by given currency or returns all wallets if null.
+     *
      * @param string|null $crcy Currency name in XYZ format
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Collection|\KluseG\LaravelWallets\Models\Wallet
-     * 
+     *
      * @throws \KluseG\LaravelWallets\Exceptions\WalletNotFoundException
      */
     public function get(string $crcy = null)
@@ -83,7 +80,7 @@ class LaravelWallets
             return $this->wallets->get();
         }
 
-        if (!$this->walletExists($crcy)) {
+        if (! $this->walletExists($crcy)) {
             throw new WalletNotFoundException(trans('wallets::exceptions.not_found_for', ['for' => $crcy]));
         }
 
@@ -91,11 +88,11 @@ class LaravelWallets
     }
 
     /**
-     * Returns or calculates Wallet's total
-     * 
+     * Returns or calculates Wallet's total.
+     *
      * @param \Carbon\Carbon|null $since  Date from
      * @param bool                $pretty Determines if output should be pretty printed
-     * 
+     *
      * @return string|float
      */
     public function getTotal(Carbon $since = null, bool $pretty = false)
@@ -124,12 +121,12 @@ class LaravelWallets
     }
 
     /**
-     * Calculates Wallet's total within given date range
-     * 
+     * Calculates Wallet's total within given date range.
+     *
      * @param \Carbon\Carbon $from   Date start
      * @param \Carbon\Carbon $to     Date end
      * @param bool           $pretty Determines if output should be pretty printed
-     * 
+     *
      * @return string|float
      */
     public function getTotalBetween(Carbon $from, Carbon $to, bool $pretty = false)
@@ -154,7 +151,7 @@ class LaravelWallets
     }
 
     /**
-     * Saves wallet income
+     * Saves wallet income.
      *
      * @param   float $amount  Income amount
      *
@@ -166,19 +163,19 @@ class LaravelWallets
     }
 
     /**
-     * Sets currently used Wallet
+     * Sets currently used Wallet.
      *
      * @param   string $crcy  Currency name in XYZ format
      *
      * @return  self
-     * 
+     *
      * @throws \KluseG\LaravelWallets\Exceptions\WalletNotFoundException
      */
     public function on(string $crcy) : self
     {
         $this->checkContext();
 
-        if (!$this->walletExists($crcy)) {
+        if (! $this->walletExists($crcy)) {
             throw new WalletNotFoundException(trans('wallets::exceptions.not_found_for', ['for' => $crcy]));
         }
 
@@ -188,7 +185,7 @@ class LaravelWallets
     }
 
     /**
-     * Saves wallet outcome
+     * Saves wallet outcome.
      *
      * @param   float $amount  Outcome amount
      *
@@ -200,7 +197,7 @@ class LaravelWallets
     }
 
     /**
-     * Sets currently used walletable instance
+     * Sets currently used walletable instance.
      *
      * @param   Model $context  Walletable
      *
@@ -214,17 +211,17 @@ class LaravelWallets
     }
 
     /**
-     * Checks if currently set Walletable is valid
+     * Checks if currently set Walletable is valid.
      *
      * @return  bool
-     * 
+     *
      * @throws \KluseG\LaravelWallets\Exceptions\InvalidContextException
      */
     protected function checkContext() : bool
     {
-        if (!isset($this->ctx) || empty($this->ctx) || !($this->ctx instanceof Model)) {
+        if (! isset($this->ctx) || empty($this->ctx) || ! ($this->ctx instanceof Model)) {
             throw new InvalidContextException(trans('wallets::exceptions.context', ['context' => Model::class]));
-        } else if (!isset($this->wallets) || empty($this->wallets)) {
+        } elseif (! isset($this->wallets) || empty($this->wallets)) {
             return $this->setRelation()->checkContext();
         }
 
@@ -232,15 +229,15 @@ class LaravelWallets
     }
 
     /**
-     * Check if currently set Wallet instance is valid
+     * Check if currently set Wallet instance is valid.
      *
      * @return  bool
-     * 
+     *
      * @throws \KluseG\LaravelWallets\Exceptions\WalletNotFoundException
      */
     protected function checkWallet() : bool
     {
-        if (!isset($this->wallet) || empty($this->wallet) || !($this->wallet instanceof Wallet)) {
+        if (! isset($this->wallet) || empty($this->wallet) || ! ($this->wallet instanceof Wallet)) {
             throw new WalletNotFoundException(trans('wallets::exceptions.not_found'));
         }
 
@@ -248,21 +245,22 @@ class LaravelWallets
     }
 
     /**
-     * Creates new transaction
-     * 
+     * Creates new transaction.
+     *
      * @param float $amount Transaction amount
      * @param bool  $income Determines transaction type: income or outcome
-     * 
+     *
      * @return \KluseG\LaravelWallets\Models\WalletTransaction
-     * 
+     *
      * @throws \KluseG\LaravelWallets\Exceptions\WalletEmptyException
      */
     protected function createTransaction(float $amount, bool $income = true) : WalletTransaction
     {
         $this->checkWallet();
 
-        if (!$income && !$this->isTransactionAllowed($amount)) throw new WalletEmptyException(trans('wallets::exceptions.empty'));
-
+        if (! $income && ! $this->isTransactionAllowed($amount)) {
+            throw new WalletEmptyException(trans('wallets::exceptions.empty'));
+        }
         dump($this->isTransactionAllowed($amount));
 
         return $this->wallet->transactions()->create([
@@ -272,21 +270,23 @@ class LaravelWallets
     }
 
     /**
-     * Checks if transaction is allowed
-     * 
+     * Checks if transaction is allowed.
+     *
      * @param float $amount Transaction amount
-     * 
+     *
      * @return bool
      */
     protected function isTransactionAllowed(float $amount) : bool
     {
-        if (config('wallets.allow_credit', true)) return true;
+        if (config('wallets.allow_credit', true)) {
+            return true;
+        }
 
         return ($this->wallet->total - $amount) >= 0;
     }
 
     /**
-     * Sets MorphMany relation for setted context
+     * Sets MorphMany relation for setted context.
      *
      * @return  self
      */
@@ -298,10 +298,10 @@ class LaravelWallets
     }
 
     /**
-     * Checks if wallet with given currency exists
-     * 
+     * Checks if wallet with given currency exists.
+     *
      * @param string $crcy Currency name in XYZ format
-     * 
+     *
      * @return bool
      */
     protected function walletExists(string $crcy) : bool

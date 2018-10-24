@@ -7,7 +7,7 @@ use KluseG\LaravelWallets\Facades\LaravelWallets as Wallets;
 trait HasWallets
 {
     /**
-     * Creates new Wallet
+     * Creates new Wallet.
      */
     public function addWallet(string $crcy, float $total = null)
     {
@@ -15,7 +15,7 @@ trait HasWallets
     }
 
     /**
-     * Returns specified wallet or collection of all wallets
+     * Returns specified wallet or collection of all wallets.
      */
     public function getWallet(string $crcy = null)
     {
@@ -23,7 +23,7 @@ trait HasWallets
     }
 
     /**
-     * Creates transaction with income
+     * Creates transaction with income.
      */
     public function income(string $crcy, float $amount)
     {
@@ -31,7 +31,7 @@ trait HasWallets
     }
 
     /**
-     * Creates transaction with outcome
+     * Creates transaction with outcome.
      */
     public function outcome(string $crcy, float $amount)
     {
@@ -39,15 +39,15 @@ trait HasWallets
     }
 
     /**
-     * Gets Wallet's total (since specified date or current total)
+     * Gets Wallet's total (since specified date or current total).
      */
     public function getTotal(string $crcy, $since = null, $pretty = false)
     {
         return Wallets::setContext($this)->on($crcy)->getTotal($since, $pretty);
     }
-    
+
     /**
-     * Gets Wallet's total within specified range
+     * Gets Wallet's total within specified range.
      */
     public function getTotalBetween(string $crcy, $from = null, $to = null, $pretty = false)
     {

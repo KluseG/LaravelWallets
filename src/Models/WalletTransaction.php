@@ -3,10 +3,7 @@
 namespace KluseG\LaravelWallets\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 use KluseG\LaravelWallets\Events\WalletTransactionCreated as TransactionCreated;
-
-use KluseG\LaravelWallets\Models\Wallet;
 
 class WalletTransaction extends Model
 {
@@ -68,10 +65,10 @@ class WalletTransaction extends Model
     }
 
     /**
-     * Updates current model with details array
-     * 
+     * Updates current model with details array.
+     *
      * @param array $details Details to save
-     * 
+     *
      * @return self
      */
     public function withDetails(array $details)
@@ -84,10 +81,10 @@ class WalletTransaction extends Model
     }
 
     /**
-     * Updates current model with note
-     * 
+     * Updates current model with note.
+     *
      * @param string $note Transaction note
-     * 
+     *
      * @return self
      */
     public function withNote(string $note)

@@ -3,7 +3,6 @@
 namespace KluseG\LaravelWallets\Events;
 
 use Illuminate\Queue\SerializesModels;
-
 use KluseG\LaravelWallets\Models\Wallet;
 
 class WalletUpdated
@@ -11,7 +10,7 @@ class WalletUpdated
     use SerializesModels;
 
     /**
-     * Wallet instace
+     * Wallet instace.
      *
      * @var \KluseG\LaravelWallets\Models\Wallet
      */

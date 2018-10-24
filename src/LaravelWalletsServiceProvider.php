@@ -3,7 +3,6 @@
 namespace KluseG\LaravelWallets;
 
 use Illuminate\Support\ServiceProvider;
-
 use KluseG\LaravelWallets\Models\WalletTransaction;
 use KluseG\LaravelWallets\Observers\WalletTransactionObserver;
 
@@ -51,7 +50,7 @@ class LaravelWalletsServiceProvider extends ServiceProvider
     {
         return ['laravelwallets'];
     }
-    
+
     /**
      * Console-specific booting.
      *

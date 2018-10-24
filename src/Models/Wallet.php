@@ -3,10 +3,7 @@
 namespace KluseG\LaravelWallets\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 use KluseG\LaravelWallets\Events\WalletUpdated;
-
-use KluseG\LaravelWallets\Models\WalletTransaction;
 
 class Wallet extends Model
 {
@@ -59,8 +56,8 @@ class Wallet extends Model
     protected $table = 'wallets';
 
     /**
-     * Transforms and sets "crcy" attribute
-     * 
+     * Transforms and sets "crcy" attribute.
+     *
      * @return void
      */
     public function setCrcyAttribute($value)
