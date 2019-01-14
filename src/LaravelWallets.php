@@ -261,7 +261,6 @@ class LaravelWallets
         if (! $income && ! $this->isTransactionAllowed($amount)) {
             throw new WalletEmptyException(trans('wallets::exceptions.empty'));
         }
-        dump($this->isTransactionAllowed($amount));
 
         return $this->wallet->transactions()->create([
             'amount' => $amount,

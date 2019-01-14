@@ -17,6 +17,7 @@ class Wallet extends Model
         'walletable_id' => 'integer',
         'walletable_type' => 'string',
         'total' => 'double',
+        'all_time_total' => 'double',
         'crcy' => 'string',
     ];
 
@@ -45,7 +46,7 @@ class Wallet extends Model
      * @var array
      */
     protected $fillable = [
-        'crcy', 'total',
+        'crcy', 'total', 'all_time_total',
     ];
 
     /**

@@ -16,6 +16,7 @@ class WalletTransactionObserver
     {
         if ($transaction->income) {
             $transaction->wallet()->increment('total', $transaction->amount);
+            $transaction->wallet()->increment('all_time_total', $transaction->amount);
         } else {
             $transaction->wallet()->decrement('total', $transaction->amount);
         }

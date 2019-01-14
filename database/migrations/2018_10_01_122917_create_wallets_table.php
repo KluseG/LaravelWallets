@@ -18,6 +18,7 @@ class CreateWalletsTable extends Migration
             $table->unsignedInteger('walletable_id');
             $table->string('walletable_type');
             $table->decimal('total', 8, 2)->default(0);
+            $table->decimal('all_time_total', 8, 2)->default(0);
             $table->string('crcy', 3)->nullable();
             $table->timestamps();
         });
